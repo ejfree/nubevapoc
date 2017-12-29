@@ -1,0 +1,30 @@
+[
+    {
+      "id": "platform",
+      "name": "{dispatcher name}",
+      "parameters": {
+        "cloud": "azr",
+        "netAHosts": [
+          "10.10.1.10"
+        ],
+        "netASubnet": {
+          "defaultGateway": "10.10.198.1",
+          "ipaddress": "10.10.200.10/24",
+          "reference": "netA"
+        },
+        "networkReference": "/subscriptions/2acb0abe-d00f-4199-ba56-19f2304d2ab6/resourceGroups/nubevapoc/providers/Microsoft.Network/virtualNetworks/nubevapoc-vnet",
+        "outsideSubnet": {
+          "defaultGateway": "10.10.200.1",
+          "ipaddress": "10.10.200.10/24",
+          "reference": "outside"
+        },
+        "region": "westus2",
+        "roles": {},
+        "netBSubnet": {
+          "defaultGateway": "10.10.199.1",
+          "ipaddress": "10.10.199.10/24",
+          "reference": "netB"
+        }
+      }
+    }
+  ]
