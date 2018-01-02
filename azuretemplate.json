@@ -98,7 +98,7 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('networkInterfaces_bastionVNIC_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -144,7 +144,7 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('networkInterfaces_destVNIC_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -186,7 +186,7 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('networkInterfaces_peer_insideVNIC_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -228,7 +228,7 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('networkInterfaces_peer_outsideVNIC_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -270,7 +270,7 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('networkInterfaces_sourceVNIC_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -312,7 +312,7 @@
             "type": "Microsoft.Network/networkSecurityGroups",
             "name": "[parameters('networkSecurityGroups_Allow_All_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -454,7 +454,7 @@
             "type": "Microsoft.Network/networkSecurityGroups",
             "name": "[parameters('networkSecurityGroups_SSH_RDP_only_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -613,7 +613,7 @@
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "[parameters('publicIPAddresses_bastion_public_ip_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -629,7 +629,7 @@
             "type": "Microsoft.Network/routeTables",
             "name": "[parameters('routeTables_default_to_peer_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -653,7 +653,7 @@
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[parameters('virtualNetworks_nubevapoc_peer_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
@@ -707,7 +707,7 @@
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[parameters('virtualNetworks_nubevapoc_vnet_name')]",
             "apiVersion": "2017-06-01",
-            "location": "westus2",
+            "location": "[resourceGroup().location]",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
