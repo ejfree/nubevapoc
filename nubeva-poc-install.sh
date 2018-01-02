@@ -28,4 +28,4 @@ az vm create --name peer --resource-group $resource_group --image UbuntuLTS  --a
 #Update route table, IP forwarding, and enable outbound NAT w/masquerade on Peer VM
 echo Modifying Peer Routes, Forwarding, and NAT.
 az vm extension set --resource-group $1 --vm-name peer --name customScript --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/ejfree/nubevapoc/master/routemod.sh"],"commandToExecute": "./routemod.sh"}'
-az vm extension set --resource-group $1 --vm-name bastion --name customScript2 --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/ejfree/nubevapoc/master/add_vxlan.sh"],"commandToExecute": "./add_vxlan.sh"}'
+az vm extension set --resource-group $1 --vm-name bastion --name customScript --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/ejfree/nubevapoc/master/add_vxlan.sh"],"commandToExecute": "./add_vxlan.sh"}'
