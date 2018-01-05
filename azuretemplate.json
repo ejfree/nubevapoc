@@ -9,7 +9,7 @@
         "storageAccounts_nubevablobstorage_name": {
             "defaultValue": "nubevablobstorage",
             "type": "String"
-        }
+        },
         "routeTables_default_to_peer_name": {
             "defaultValue": "default_to_peer",
             "type": "String"
