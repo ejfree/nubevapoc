@@ -6,6 +6,10 @@
             "defaultValue": "destVNIC",
             "type": "String"
         },
+        "storageAccounts_nubevablobstorage_name": {
+            "defaultValue": "nubevablobstorage",
+            "type": "String"
+        }
         "routeTables_default_to_peer_name": {
             "defaultValue": "default_to_peer",
             "type": "String"
@@ -138,6 +142,34 @@
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_nubevapoc_vnet_name'), parameters('subnets_bastion_name'))]",
                 "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_SSH_RDP_only_name'))]"
             ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/2acb0abe-d00f-4199-ba56-19f2304d2ab6/resourceGroups/nubevapoc/providers/Microsoft.Storage/storageAccounts/nubevablobstorage'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_nubevablobstorage_name')]",
+            "apiVersion": "2017-06-01",
+            "location": "westus2",
+            "scale": null,
+            "properties": {
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            },
+            "dependsOn": []
         },
         {
             "comments": "Generalized from resource: '/subscriptions/2acb0abe-d00f-4199-ba56-19f2304d2ab6/resourceGroups/nubevapoc/providers/Microsoft.Network/networkInterfaces/destVNIC'.",
