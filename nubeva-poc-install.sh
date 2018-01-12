@@ -12,7 +12,7 @@ az group create --name $1 --location $2
 
 #deploy azure template
 echo Deploying Azure Template
-az group deployment create -g $1 --template-uri https://raw.githubusercontent.com/ejfree/nubevapoc/master/azuretemplate.json
+az group deployment create -g $1 --template-uri https://raw.githubusercontent.com/ejfree/nubevapoc/master/azuretemplatev3.json
 
 
 #create 4 Vms
@@ -23,9 +23,12 @@ az vm create --name bastion --resource-group $resource_group --image UbuntuLTS  
 
 echo Creating Peer VM and waiting.....
 az vm create --name peer --resource-group $resource_group --image UbuntuLTS  --admin-username nubeva  --admin-password G0Nub3va20[]  --authentication-type password --nics  peer-outsideVNIC peer-insideVNIC
+az vm create --name windows --resource-group $resource_group --image win2016datacenter  --admin-username nubeva  --admin-password G0Nub3va20[] --subnet bastion --vnet-name nubevapoc-vnet
 
 
 #Update route table, IP forwarding, and enable outbound NAT w/masquerade on Peer VM
 echo Modifying Peer Routes, Forwarding, and NAT.
 az vm extension set --resource-group $1 --vm-name peer --name customScript --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/ejfree/nubevapoc/master/routemod.sh"],"commandToExecute": "./routemod.sh"}'
 az vm extension set --resource-group $1 --vm-name bastion --name customScript --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/ejfree/nubevapoc/master/add_vxlan.sh"],"commandToExecute": "./add_vxlan.sh"}'
+#Below doesnt work yet. 
+#az vm extension set --resource-group $1 --vm-name windows --name customScript --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/ejfree/nubevapoc/master/Post-Install.ps1"],"commandToExecute": "Post-Install.ps1"}'
