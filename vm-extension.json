@@ -1,0 +1,22 @@
+{
+    "apiVersion": "2018-01-11",
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "name": "config-app",
+    "tags": {
+        "displayName": "config-app"
+    },
+    "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.9",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+            "fileUris": [https://raw.githubusercontent.com/ejfree/nubevapoc/master/Post-Install.ps1]
+        },
+        "protectedSettings": {
+            "commandToExecute": "mPost-Install.ps1",
+            "storageAccountName": "myStorageAccountName",
+            "storageAccountKey": "myStorageAccountKey"
+        }
+    }
+}
