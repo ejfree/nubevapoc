@@ -14,7 +14,7 @@
             "fileUris": [https://raw.githubusercontent.com/ejfree/nubevapoc/master/Post-Install.ps1]
         },
         "protectedSettings": {
-            "commandToExecute": "mPost-Install.ps1",
+            "commandToExecute": "Post-Install.ps1",
             "storageAccountName": "myStorageAccountName",
             "storageAccountKey": "myStorageAccountKey"
         }
