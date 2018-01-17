@@ -39,6 +39,34 @@
 					"response": []
 				},
 				{
+					"name": "List Node Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":\"greig+newtest@nubeva.com\",\n\"token\":\"oepi7356NANJ\",\n\"confirmationcode\":\"658278\",\n\"password\":{\"value\":\"S3cr3tPassword\",\"method\":\"plaintext\"}\n}"
+						},
+						"url": {
+							"raw": "https://{{apiUrl}}/subscriptions",
+							"protocol": "https",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						},
+						"description": "List all StratusEdges in your account."
+					},
+					"response": []
+				},
+				{
 					"name": "Create Node",
 					"request": {
 						"method": "POST",
