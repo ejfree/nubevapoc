@@ -53,13 +53,14 @@
 							"raw": "{\"id\":\"greig+newtest@nubeva.com\",\n\"token\":\"oepi7356NANJ\",\n\"confirmationcode\":\"658278\",\n\"password\":{\"value\":\"S3cr3tPassword\",\"method\":\"plaintext\"}\n}"
 						},
 						"url": {
-							"raw": "https://{{apiUrl}}/subscriptions",
+							"raw": "https://{{apiUrl}}/subscriptions/{{subid}}",
 							"protocol": "https",
 							"host": [
 								"{{apiUrl}}"
 							],
 							"path": [
-								"subscriptions"
+								"subscriptions",
+								"{{subid}}"
 							]
 						},
 						"description": "List all StratusEdges in your account."
@@ -82,7 +83,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{  \r\n   \"config\":[  \r\n      {  \r\n         \"id\":\"platform\",\r\n         \"name\":\"dispatcher\",\r\n         \"parameters\":{  \r\n            \"cloud\":\"azr\",\r\n            \"archVersion\":\"no-internet-21\",\r\n            \"netAHosts\":[  \r\n               \"10.0.1.4\"\r\n            ],\r\n            \"netASubnet\":{  \r\n               \"defaultGateway\":\"10.0.11.2\",\r\n               \"ipaddress\":\"10.0.11.6/24\",\r\n               \"reference\":\"netA\"\r\n            },\r\n            \"networkReference\":\"/subscriptions/2acb0abe-d00f-4199-ba56-19f2304d2ab6/resourceGroups/controller-shared-east/providers/Microsoft.Network/virtualNetworks/vnet-demo\",\r\n            \"outsideSubnet\":{  \r\n               \"defaultGateway\":\"10.0.200.2\",\r\n               \"ipaddress\":\"10.0.200.6/24\",\r\n               \"reference\":\"outside\"\r\n            },\r\n            \"region\":\"eastus\",\r\n            \"roles\":{  \r\n\r\n            },\r\n            \"netBHosts\":[  \r\n               \"10.0.2.4\"\r\n            ],\r\n            \"netBSubnet\":{  \r\n               \"defaultGateway\":\"10.0.12.2\",\r\n               \"ipaddress\":\"10.0.12.6/24\",\r\n               \"reference\":\"netB\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}"
+							"raw": "{  \r\n   \"config\":[  \r\n      {  \r\n         \"id\":\"platform\",\r\n         \"name\":\"dispatcher\",\r\n         \"parameters\":{  \r\n            \"cloud\":\"azr\",\r\n            \"archVersion\":\"no-internet-21\",\r\n            \"netAHosts\":[  \r\n               \"10.10.1.10\"\r\n            ],\r\n            \"netASubnet\":{  \r\n               \"defaultGateway\":\"10.10.198.1\",\r\n               \"ipaddress\":\"10.10.198.10/24\",\r\n               \"reference\":\"netA\"\r\n            },\r\n            \"networkReference\":\"/subscriptions/2acb0abe-d00f-4199-ba56-19f2304d2ab6/resourceGroups/nubevapoc/providers/Microsoft.Network/virtualNetworks/nubevapoc-vnet\",\r\n            \"outsideSubnet\":{  \r\n               \"defaultGateway\":\"10.10.200.1\",\r\n               \"ipaddress\":\"10.10.200.10/24\",\r\n               \"reference\":\"outside\"\r\n            },\r\n            \"region\":\"westus2\",\r\n            \"roles\":{  \r\n\r\n            },\r\n            \"netBSubnet\":{  \r\n               \"defaultGateway\":\"10.10.199.1\",\r\n               \"ipaddress\":\"10.10.199.10/24\",\r\n               \"reference\":\"netB\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}"
 						},
 						"url": {
 							"raw": "https://{{apiUrl}}/subscriptions",
