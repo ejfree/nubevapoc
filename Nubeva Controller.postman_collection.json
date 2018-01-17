@@ -188,7 +188,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"config\": {\n        \"interface\": \"trusted\",\n        \"key\": \"128\",\n        \"target\": \"10.0.0.4\"\n    },\n    \"enabled\": true,\n    \"name\": \"tapvxlan_128\"\n}"
+							"raw": "{\n    \"config\": {\n        \"interface\": \"trusted\",\n        \"key\": \"1234\",\n        \"target\": \"10.10.100.10\"\n    },\n    \"enabled\": true,\n    \"name\": \"tapvxlan_1234\"\n}"
 						},
 						"url": {
 							"raw": "https://{{apiUrl}}/subscriptions/{{subid}}/tap",
