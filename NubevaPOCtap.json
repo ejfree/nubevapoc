@@ -1,0 +1,9 @@
+{
+    "config": {
+        "interface": "trusted",
+        "key": "1234",
+        "target": "10.10.100.10"
+    },
+    "enabled": true,
+    "name": "tapvxlan_1234"
+}
