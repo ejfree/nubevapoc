@@ -2,9 +2,13 @@
 Nubeva Proof of Concept Files
 
 ## Usage
-CREATE: `./nubeva-poc-install -n nubevapoc -r westus -p NubevaCustomPass!`
-DELETE: `./nubeva-poc-install -n nubevapoc -r westus -d`
+### Create Example 
+`./nubeva-poc-install -n nubevapoc -r westus -p NubevaCustomPass!`
 
+### Delete Example 
+`./nubeva-poc-install -n nubevapoc -r westus -d`
+
+### Arguments
 ```
 -n|--name <name>
     REQUIRED
