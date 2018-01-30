@@ -57,7 +57,7 @@ delete () {
 # Create a resource group with a give name in a given region (-n|--name, -r|--region)
 create () {
     # Download the template locally so we can use `sed` to postfill the password
-    wget "$TEMPLATE_URL/$TEMPLATE" -O deployment.json.tmp
+    curl "$TEMPLATE_URL/$TEMPLATE" -o deployment.json.tmp
     sed "s/<PASSWORD>/$PASSWORD/" < deployment.json.tmp > deployment.json
 
     #create resource group
