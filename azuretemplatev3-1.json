@@ -1040,6 +1040,8 @@
                 },
                 "osProfile": {
                     "computerName": "[parameters('vmName')]",
+                    "adminUsername": "nubeva",
+                    "adminPassword": "<PASSWORD>",
                     "customData": "[base64(concat(parameters('vmName'),'|',resourceGroup().name,'|',variables('storageName')))]"
                 },
                 "storageProfile": {
