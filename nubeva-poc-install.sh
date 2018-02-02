@@ -7,11 +7,11 @@ trap cleanup_artefacts SIGINT
 #set arguement equal to resource group
 NAME=
 REGION=
-PASSWORD=GoNubeva1234
+PASSWORD=G0Nub3va20[]
 DELETE=false
 
 TEMPLATE_URL=https://raw.githubusercontent.com/ejfree/nubevapoc/master
-TEMPLATE=azuretemplatev3-1.json
+TEMPLATE=azuretemplatev3.json
 
 # Display the help message for the script
 help () {
@@ -36,7 +36,7 @@ help () {
     echo "    Flag to schedule a delete of a POC environment, if not specified goes to"
     echo "    create by default"
     echo "-p|--password <password>"
-    echo "    Manually override the password for the bastion, default is 'GoNubeva1234'"
+    echo "    Manually override the environment password, default is '$PASSWORD'"
     echo "-h|--help"
     echo "    Display this help message"
     echo ""
@@ -56,10 +56,6 @@ delete () {
 
 # Create a resource group with a give name in a given region (-n|--name, -r|--region)
 create () {
-    # Download the template locally so we can use `sed` to postfill the password
-    curl "$TEMPLATE_URL/$TEMPLATE" -o deployment.json.tmp
-    sed "s/<PASSWORD>/$PASSWORD/" < deployment.json.tmp > deployment.json
-
     #create resource group
     echo Creating Resoure Group
     az group create --name $NAME --location $REGION
@@ -67,18 +63,18 @@ create () {
     #deploy azure template
     # Use local template to deploy
     echo Deploying Azure Template
-    az group deployment create -g $NAME --template-file deployment.json
+    az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE
 
 
     #create 4 Vms
     echo Creating Source, Dest, and Bastion VMs and continuing.....
-    az vm create --name source --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password G0Nub3va20[]  --authentication-type password  --no-wait --nics sourceVNIC
-    az vm create --name dest --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password G0Nub3va20[]  --authentication-type password  --no-wait --nics destVNIC
-    az vm create --name bastion --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password G0Nub3va20[]  --authentication-type password  --no-wait --nics bastionVNIC
+    az vm create --name source --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password $PASSWORD  --authentication-type password  --no-wait --nics sourceVNIC
+    az vm create --name dest --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password $PASSWORD  --authentication-type password  --no-wait --nics destVNIC
+    az vm create --name bastion --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password $PASSWORD  --authentication-type password  --no-wait --nics bastionVNIC
 
     echo Creating Peer VM and waiting.....
-    az vm create --name peer --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password G0Nub3va20[]  --authentication-type password --nics  peer-outsideVNIC peer-insideVNIC
-    az vm create --name windows --resource-group $NAME --image win2016datacenter  --admin-username nubeva  --admin-password G0Nub3va20[] --subnet bastion --vnet-name nubevapoc-vnet
+    az vm create --name peer --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password $PASSWORD  --authentication-type password --nics  peer-outsideVNIC peer-insideVNIC
+    az vm create --name windows --resource-group $NAME --image win2016datacenter  --admin-username nubeva  --admin-password $PASSWORD --subnet bastion --vnet-name nubevapoc-vnet
 
 
     #Update route table, IP forwarding, and enable outbound NAT w/masquerade on Peer VM
