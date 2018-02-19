@@ -20,7 +20,7 @@ Nubeva Proof of Concept Files
     Flag to schedule a delete of a POC environment, if not specified goes to
     create by default
 -p|--password <password>
-    Manually override the password for the bastion, default is 'GoNubeva1234'
+    Manually override the password for all devices, default is 'G0Nub3va20[]'
 -h|--help
     Display this help message
 ```
