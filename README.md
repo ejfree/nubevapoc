@@ -2,11 +2,13 @@
 Nubeva Proof of Concept Files
 
 ## Usage
+Uses whatever account you are logged into currently with 'az login'
+
 ### Create Example 
 `./nubeva-poc-install -n nubevapoc -r westus -p NubevaCustomPass!`
 
 ### Delete Example 
-`./nubeva-poc-install -n nubevapoc -r westus -d`
+`./nubeva-poc-install -n nubevapoc -d`
 
 ### Arguments
 ```
