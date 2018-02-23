@@ -1052,9 +1052,9 @@
                 "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
             ],
             "plan": {
-                "name": "controllertest",
+                "name": "byol",
                 "publisher": "nubeva-inc",
-                "product": "test-preview"
+                "product": "controller-dev-preview"
             },
             "properties": {
                 "hardwareProfile": {
@@ -1069,8 +1069,8 @@
                 "storageProfile": {
                     "imageReference": {
                         "publisher": "nubeva-inc",
-                        "offer": "test-preview",
-                        "sku": "controllertest",
+                        "offer": "controller-dev-preview",
+                        "sku": "byol",
                         "version": "latest"
                     },
                     "osDisk": {
