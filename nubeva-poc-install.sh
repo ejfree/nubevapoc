@@ -11,7 +11,7 @@ PASSWORD=G0Nub3va20[]
 DELETE=false
 
 TEMPLATE_URL=https://raw.githubusercontent.com/ejfree/nubevapoc/master
-TEMPLATE=azuretemplatev3.json
+TEMPLATE=azuretemplatev7.json
 
 # Display the help message for the script
 help () {
