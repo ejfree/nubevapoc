@@ -102,7 +102,8 @@
     "variables": {
         "nicName": "specializedVMNic",
         "vmSize": "Standard_B2s",
-        "storageName": "[concat('nustorage', uniqueString(resourceGroup().id))]"
+        "storageName": "[concat('nustorage', uniqueString(resourceGroup().id))]",
+        "storageKeyOperatorRole": "[concat('/subscriptions/',subscription().subscriptionId,'/providers/Microsoft.Authorization/roleDefinitions/81a9662b-bebf-436f-a333-f67b29880f12')]"
     },
     "resources": [
         {
@@ -1038,6 +1039,20 @@
                     "port": 50342
                 },
                 "protectedSettings": {}
+            }
+        },
+        {
+            "apiVersion": "2016-07-01",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "name": "[guid(string(deployment()))]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+            ],
+            "comments": "You can retrieve the role definition ID with a simple Azure CLI command such as 'az role definition list --query \"[?properties.roleName == 'Contributor']\" --out json'",
+            "properties": {
+                "roleDefinitionId": "[variables('storageKeyOperatorRole')]",
+                "principalId": "[reference(concat('Microsoft.Compute/virtualMachines/', parameters('vmName'),'/providers/Microsoft.ManagedIdentity/Identities/default'),'2015-08-31-PREVIEW').principalId]",
+                "scope": "[resourceGroup().id]"
             }
         },
         {
