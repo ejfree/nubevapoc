@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # trap exit commands to force them to run cleanup first
 trap cleanup_artefacts SIGINT
 
@@ -11,7 +13,7 @@ PASSWORD=G0Nub3va20[]
 DELETE=false
 
 TEMPLATE_URL=https://raw.githubusercontent.com/ejfree/nubevapoc/master
-TEMPLATE=azuretemplatev7_master.json
+TEMPLATE=azuretemplatev8_master.json
 
 # Display the help message for the script
 help () {
@@ -57,13 +59,20 @@ delete () {
 # Create a resource group with a give name in a given region (-n|--name, -r|--region)
 create () {
     #create resource group
-    echo Creating Resoure Group
+    echo Creating Resource Group
     az group create --name $NAME --location $REGION
 
     #deploy azure template
     # Use local template to deploy
-    echo Deploying Azure Template
-    az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE
+    echo -n "Deploying Azure Template "
+    if [ -e "$TEMPLATE" ]
+    then
+        echo "from local file"
+        az group deployment create -g $NAME --template-file "$TEMPLATE"
+    else
+        echo "from $TEMPLATE_URL"
+        az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE
+    fi
 
 
     #create 4 Vms
