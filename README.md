@@ -23,6 +23,8 @@ Uses whatever account you are logged into currently with 'az login'
     create by default
 -p|--password <password>
     Manually override the password for all devices, default is 'G0Nub3va20[]'
+-o|--offer <preview|live>
+    Choose whether to use preview version of the Controller or live.
 -h|--help
     Display this help message
 ```

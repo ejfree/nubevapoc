@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # trap exit commands to force them to run cleanup first
 trap cleanup_artefacts SIGINT
 
@@ -11,7 +13,7 @@ PASSWORD=G0Nub3va20[]
 DELETE=false
 
 TEMPLATE_URL=https://raw.githubusercontent.com/ejfree/nubevapoc/master
-TEMPLATE=azuretemplatev7.json
+TEMPLATE=azuretemplatev8.json
 
 # Display the help message for the script
 help () {
@@ -60,7 +62,7 @@ delete () {
 # Create a resource group with a give name in a given region (-n|--name, -r|--region)
 create () {
     #create resource group
-    echo Creating Resoure Group
+    echo Creating Resource Group
     az group create --name $NAME --location $REGION
 
     #deploy azure template
@@ -68,17 +70,23 @@ create () {
     echo Deploying Azure Template
     
     if [[ $OFFER == 'live' ]]; then
-        OFFER_VALUE="controller"
+        PARAMETERS_STR="--parameters \"{'marketplaceControllerOffer': {'value': 'controller'}}\""
     elif [[ $OFFER == 'preview' ]] || [[ -z $OFFER ]]; then
-        OFFER_VALUE="controller-dev-preview"
+        PARAMETERS_STR="--parameters \"{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}\""
     else
         echo "Unknown value for parameter --offer. Defaulting to preview"
-        OFFER_VALUE="controller-dev-preview"
+        PARAMETERS_STR="--parameters \"{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}\""
     fi
 
-    az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE --parameters "{'marketplaceControllerOffer': {'value': '$OFFER_VALUE'}}"
-
-
+    if [[ -e "$TEMPLATE" ]]
+    then
+        echo "from local file"
+        az group deployment create -g $NAME --template-file "$TEMPLATE" $PARAMETERS_STR
+    else
+        echo "from $TEMPLATE_URL"
+        az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE $PARAMETERS_STR
+    fi
+    
     #create 4 Vms
     echo Creating Source, Dest, and Bastion VMs and continuing.....
     az vm create --name source --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password $PASSWORD  --authentication-type password  --no-wait --nics sourceVNIC
