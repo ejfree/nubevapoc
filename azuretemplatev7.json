@@ -97,6 +97,17 @@
         "virtualNetworkPeerings_poc_to_peer_name": {
             "defaultValue": "poc-to-peer",
             "type": "String"
+        },
+        "marketplaceControllerOffer": {
+            "defaultValue": "controller-dev-preview",
+            "allowedValues": [
+                "controller",
+                "controller-dev-preview"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "Should this deployment use production marketplace controller version or the latest master"
+            }
         }
     },
     "variables": {
@@ -158,7 +169,7 @@
                 "tier": "Standard"
             },
             "kind": "Storage",
-            "name": "[parameters('storageAccounts_nubevablobstorage_name')]",
+            "name": "[concat(parameters('storageAccounts_nubevablobstorage_name'), uniqueString(resourceGroup().id))]",
             "apiVersion": "2017-06-01",
             "location": "westus2",
             "scale": null,
@@ -1069,7 +1080,7 @@
             "plan": {
                 "name": "byol",
                 "publisher": "nubeva-inc",
-                "product": "controller-dev-preview"
+                "product": "[parameters('marketplaceControllerOffer')]"
             },
             "properties": {
                 "hardwareProfile": {
@@ -1084,7 +1095,7 @@
                 "storageProfile": {
                     "imageReference": {
                         "publisher": "nubeva-inc",
-                        "offer": "controller-dev-preview",
+                        "offer": "[parameters('marketplaceControllerOffer')]",
                         "sku": "byol",
                         "version": "latest"
                     },

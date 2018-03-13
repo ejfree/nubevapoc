@@ -11,7 +11,7 @@ PASSWORD=G0Nub3va20[]
 DELETE=false
 
 TEMPLATE_URL=https://raw.githubusercontent.com/ejfree/nubevapoc/master
-TEMPLATE=azuretemplatev7_master.json
+TEMPLATE=azuretemplatev7.json
 
 # Display the help message for the script
 help () {
@@ -32,6 +32,9 @@ help () {
     echo "-r|--region <region>"
     echo "    CONDITIONAL (Required for create only)"
     echo "    The region to use for the POC resource group"
+    echo "-o|--offer <preview|live>"
+    echo "    Indicates whether to use the latest preview controller version"
+    echo "    or the live marketplace offer. Defaults to preview."
     echo "-d|--delete"
     echo "    Flag to schedule a delete of a POC environment, if not specified goes to"
     echo "    create by default"
@@ -63,7 +66,17 @@ create () {
     #deploy azure template
     # Use local template to deploy
     echo Deploying Azure Template
-    az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE
+    
+    if [[ $OFFER == 'live' ]]; then
+        OFFER_VALUE="controller"
+    elif [[ $OFFER == 'preview' ]] || [[ -z $OFFER ]]; then
+        OFFER_VALUE="controller-dev-preview"
+    else
+        echo "Unknown value for parameter --offer. Defaulting to preview"
+        OFFER_VALUE="controller-dev-preview"
+    fi
+
+    az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE --parameters "{'marketplaceControllerOffer': {'value': '$OFFER_VALUE'}}"
 
 
     #create 4 Vms
@@ -106,6 +119,11 @@ do
             ;;
         -r|--region)
             REGION=$2
+            shift
+            shift
+            ;;
+        -o|--offer)
+            OFFER=$2
             shift
             shift
             ;;
