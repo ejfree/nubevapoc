@@ -70,21 +70,21 @@ create () {
     echo Deploying Azure Template
     
     if [[ $OFFER == 'live' ]]; then
-        PARAMETERS_STR="--parameters \"{'marketplaceControllerOffer': {'value': 'controller'}}\""
+        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller'}}"
     elif [[ $OFFER == 'preview' ]] || [[ -z $OFFER ]]; then
-        PARAMETERS_STR="--parameters \"{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}\""
+        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}"
     else
         echo "Unknown value for parameter --offer. Defaulting to preview"
-        PARAMETERS_STR="--parameters \"{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}\""
+        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}"
     fi
 
-    if [[ -e "$TEMPLATE" ]]
+    if [ -e "$TEMPLATE" ]
     then
         echo "from local file"
-        az group deployment create -g $NAME --template-file "$TEMPLATE" $PARAMETERS_STR
+        az group deployment create -g $NAME --template-file "$TEMPLATE" --parameters "$PARAMETERS_STR"
     else
         echo "from $TEMPLATE_URL"
-        az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE $PARAMETERS_STR
+        az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE --parameters "$PARAMETERS_STR"
     fi
     
     #create 4 Vms
