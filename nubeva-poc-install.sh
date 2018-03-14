@@ -37,7 +37,7 @@ help () {
     echo "    The region to use for the POC resource group"
     echo "-o|--offer <preview|live>"
     echo "    Indicates whether to use the latest preview controller version"
-    echo "    or the live marketplace offer. Defaults to preview."
+    echo "    or the live marketplace offer. Defaults to $OFFER."
     echo "-d|--delete"
     echo "    Flag to schedule a delete of a POC environment, if not specified goes to"
     echo "    create by default"
