@@ -9,6 +9,7 @@ trap cleanup_artefacts SIGINT
 #set arguement equal to resource group
 NAME=
 REGION=
+OFFER=live
 PASSWORD=G0Nub3va20[]
 DELETE=false
 
@@ -61,22 +62,23 @@ delete () {
 
 # Create a resource group with a give name in a given region (-n|--name, -r|--region)
 create () {
+    echo "Setting offer parameters"
     #create resource group
+    if [[ $OFFER == 'preview' ]]; then
+        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}"
+    elif [[ $OFFER == 'live' ]]; then
+        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller'}}"
+    else
+        echo "Unknown argument '$OFFER' provided to --offer|-o flag. Please provide either 'live' or 'preview'"
+        exit 1
+    fi
+
     echo Creating Resource Group
     az group create --name $NAME --location $REGION
 
     #deploy azure template
     # Use local template to deploy
     echo Deploying Azure Template
-    
-    if [[ $OFFER == 'live' ]]; then
-        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller'}}"
-    elif [[ $OFFER == 'preview' ]] || [[ -z $OFFER ]]; then
-        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}"
-    else
-        echo "Unknown value for parameter --offer. Defaulting to preview"
-        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}"
-    fi
 
     if [ -e "$TEMPLATE" ]
     then
