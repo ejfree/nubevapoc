@@ -9,8 +9,10 @@ trap cleanup_artefacts SIGINT
 #set arguement equal to resource group
 NAME=
 REGION=
+OFFER=live
 PASSWORD=G0Nub3va20[]
 DELETE=false
+DEV=false
 
 TEMPLATE_URL=https://raw.githubusercontent.com/ejfree/nubevapoc/master
 TEMPLATE=azuretemplatev8.json
@@ -36,7 +38,7 @@ help () {
     echo "    The region to use for the POC resource group"
     echo "-o|--offer <preview|live>"
     echo "    Indicates whether to use the latest preview controller version"
-    echo "    or the live marketplace offer. Defaults to preview."
+    echo "    or the live marketplace offer. Preview requires whitelisting.  Defaults to $OFFER."
     echo "-d|--delete"
     echo "    Flag to schedule a delete of a POC environment, if not specified goes to"
     echo "    create by default"
@@ -45,6 +47,11 @@ help () {
     echo "-h|--help"
     echo "    Display this help message"
     echo ""
+
+    #  Undocumented options:
+    #  --dev
+    #      Uses the nubeva development, "master" version.
+    #      Requires whitelisting to launch.
 }
 
 # Delete a resource group with a given name, to run pass in a -d|--delete flag
@@ -61,22 +68,28 @@ delete () {
 
 # Create a resource group with a give name in a given region (-n|--name, -r|--region)
 create () {
+    echo "Setting offer parameters"
     #create resource group
+    OFFERBASE="controller"
+    if $DEV
+    then
+        OFFERBASE="controller-dev"
+    fi
+    if [[ $OFFER == 'preview' ]]; then
+        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': '$OFFERBASE-preview'}}"
+    elif [[ $OFFER == 'live' ]]; then
+        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': '$OFFERBASE'}}"
+    else
+        echo "Unknown argument '$OFFER' provided to --offer|-o flag. Please provide either 'live' or 'preview'"
+        exit 1
+    fi
+
     echo Creating Resource Group
     az group create --name $NAME --location $REGION
 
     #deploy azure template
     # Use local template to deploy
     echo Deploying Azure Template
-    
-    if [[ $OFFER == 'live' ]]; then
-        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller'}}"
-    elif [[ $OFFER == 'preview' ]] || [[ -z $OFFER ]]; then
-        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}"
-    else
-        echo "Unknown value for parameter --offer. Defaulting to preview"
-        PARAMETERS_STR="{'marketplaceControllerOffer': {'value': 'controller-dev-preview'}}"
-    fi
 
     if [ -e "$TEMPLATE" ]
     then
@@ -112,6 +125,15 @@ while [[ $# -gt 0 ]]
 do
     key="$1"
     case $key in
+        --dev)
+            DEV=true
+            echo "Dev work specified, switching to preview offer.  Override with -o switch _after_ --dev switch."
+            if [ "$OFFER" == "live" ]
+            then
+                OFFER="preview"
+            fi
+            shift
+            ;;
         -d|--delete)
             DELETE=true
             shift
