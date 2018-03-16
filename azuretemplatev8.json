@@ -1054,7 +1054,7 @@
         {
             "apiVersion": "2016-07-01",
             "type": "Microsoft.Authorization/roleAssignments",
-            "name": "[guid(resourceId('Microsoft.Compute/virtualMachines', parameters('vmName')))]",
+            "name": "[guid(resourceGroup().id, deployment().name)]",
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
             ],
