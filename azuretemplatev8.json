@@ -18,8 +18,8 @@
             "type": "string",
             "defaultValue": "nucontroller"
         },
-        "networkInterfaces_sourceVNIC_name": {
-            "defaultValue": "sourceVNIC",
+        "sourceBaseString": {
+            "defaultValue": "source",
             "type": "String"
         },
         "networkInterfaces_bastionVNIC_name": {
@@ -60,10 +60,6 @@
         },
         "subnets_inside_name": {
             "defaultValue": "inside",
-            "type": "String"
-        },
-        "subnets_source_name": {
-            "defaultValue": "source",
             "type": "String"
         },
         "routes_to_internet_name": {
@@ -130,6 +126,7 @@
             }
         },
         "nicName": "specializedVMNic",
+        "source2SubnetName": "[concat(parameters('sourceBaseString'), '2')]",
         "vmSize": "Standard_B2s",
         "blobStorageName": "[substring(concat(parameters('storageAccounts_nubevablobstorage_name'), uniqueString(resourceGroup().id)),0,23)]",
         "storageKeyOperatorRole": "[concat('/subscriptions/',subscription().subscriptionId,'/providers/Microsoft.Authorization/roleDefinitions/81a9662b-bebf-436f-a333-f67b29880f12')]"
@@ -332,7 +329,7 @@
         },
         {
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[parameters('networkInterfaces_sourceVNIC_name')]",
+            "name": "[concat(parameters('sourceBaseString'), 'VNIC')]",
             "apiVersion": "2017-06-01",
             "location": "[resourceGroup().location]",
             "scale": null,
@@ -348,7 +345,7 @@
                             "privateIPAddress": "10.10.1.10",
                             "privateIPAllocationMethod": "Static",
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_nubevapoc_vnet_name'), parameters('subnets_source_name'))]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_nubevapoc_vnet_name'), parameters('sourceBaseString'))]"
                             },
                             "primary": true,
                             "privateIPAddressVersion": "IPv4"
@@ -367,7 +364,45 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_nubevapoc_vnet_name'), parameters('subnets_source_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_nubevapoc_vnet_name'), parameters('sourceBaseString'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_SSH_RDP_only_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(parameters('sourceBaseString'), '2VNIC')]",
+            "apiVersion": "2017-06-01",
+            "location": "[resourceGroup().location]",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAddress": "10.10.3.10",
+                            "privateIPAllocationMethod": "Static",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_nubevapoc_vnet_name'), variables('source2SubnetName'))]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_SSH_RDP_only_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_nubevapoc_vnet_name'), variables('source2SubnetName'))]",
                 "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_SSH_RDP_only_name'))]"
             ]
         },
@@ -777,11 +812,21 @@
                 },
                 "subnets": [
                     {
-                        "name": "source",
+                        "name": "[parameters('sourceBaseString')]",
                         "etag": "W/\"27400ec0-13c3-4b35-84a4-cc4b300ed164\"",
                         "properties": {
                             "provisioningState": "Succeeded",
                             "addressPrefix": "10.10.1.0/24",
+                            "routeTable": {
+                                "id": "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_default_to_peer_name'))]"
+                            }
+                        }
+                    },
+                    {
+                        "name": "[concat(parameters('sourceBaseString'), '2')]",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "addressPrefix": "10.10.3.0/24",
                             "routeTable": {
                                 "id": "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_default_to_peer_name'))]"
                             }
@@ -957,12 +1002,29 @@
         },
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
-            "name": "[concat(parameters('virtualNetworks_nubevapoc_vnet_name'), '/', parameters('subnets_source_name'))]",
+            "name": "[concat(parameters('virtualNetworks_nubevapoc_vnet_name'), '/', parameters('sourceBaseString'))]",
             "apiVersion": "2017-06-01",
             "scale": null,
             "properties": {
                 "provisioningState": "Succeeded",
                 "addressPrefix": "10.10.1.0/24",
+                "routeTable": {
+                    "id": "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_default_to_peer_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_nubevapoc_vnet_name'))]",
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_default_to_peer_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "name": "[concat(parameters('virtualNetworks_nubevapoc_vnet_name'), '/', variables('source2SubnetName'))]",
+            "apiVersion": "2017-06-01",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "10.10.3.0/24",
                 "routeTable": {
                     "id": "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_default_to_peer_name'))]"
                 }

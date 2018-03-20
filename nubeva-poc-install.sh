@@ -100,9 +100,10 @@ create () {
         az group deployment create -g $NAME --template-uri $TEMPLATE_URL/$TEMPLATE --parameters "$PARAMETERS_STR"
     fi
     
-    #create 4 Vms
+    #create 5 Vms: n+1 source machines
     echo Creating Source, Dest, and Bastion VMs and continuing.....
     az vm create --name source --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password $PASSWORD  --authentication-type password  --no-wait --nics sourceVNIC
+    az vm create --name source2 --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password $PASSWORD  --authentication-type password  --no-wait --nics source2VNIC
     az vm create --name dest --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password $PASSWORD  --authentication-type password  --no-wait --nics destVNIC
     az vm create --name bastion --resource-group $NAME --image UbuntuLTS  --admin-username nubeva  --admin-password $PASSWORD  --authentication-type password  --no-wait --nics bastionVNIC
 
