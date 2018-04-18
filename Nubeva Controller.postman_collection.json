@@ -293,7 +293,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"appId\":  \"a7005175-6769-4123-918f-8d9159789afd\",\r\n    \"subscriptionid\":  \"2acb0abe-d00f-4199-ba56-19f2304d2ab6\",\r\n    \"tenant\":  \"c42e1229-595a-4068-98e0-ea9d606c3cd4\",\r\n    \"password\": \"123Nubeva123\"\r\n}"
+					"raw": "{\r\n    \"appId\":  \"your-appid-here\",\r\n    \"subscriptionid\":  \"your-subid-here\",\r\n    \"tenant\":  \"your-tenant-here\",\r\n    \"password\": \"yourPW-here\"\r\n}"
 				},
 				"url": {
 					"raw": "https://{{apiUrl}}/setup",
