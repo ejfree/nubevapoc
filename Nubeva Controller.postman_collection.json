@@ -1,13 +1,13 @@
 {
 	"info": {
-		"name": "Controller",
-		"_postman_id": "818e6620-9824-f235-6b0a-0dd8c1bd12d5",
+		"name": "Controller copy",
+		"_postman_id": "a343218a-e0c9-0470-feaf-cfda304449d4",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "StratusEdge",
+			"name": "StratusEdge Node",
 			"description": "StratusEdge is advanced, proprietary software that is licensed to run in your Azure and AWS accounts so you always control your services and data.  It provides a purpose-built platform for security enablement on top of basic cloud functionality including: critical missing networking, advanced security technology automation, and total service orchestration.",
 			"item": [
 				{
@@ -39,7 +39,7 @@
 					"response": []
 				},
 				{
-					"name": "List Node Details",
+					"name": "List Primary Node Details",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -68,7 +68,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Node",
+					"name": "Create Primary Node",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -100,7 +100,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Node",
+					"name": "Delete Primary Node",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -131,6 +131,28 @@
 						"description": "Deletes an existing StratusEdge. NOTE: use this action with caution as it cannot be undone."
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "484addd4-58ad-4d40-a5e0-5813c050d63c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ee4f00d-3d14-41ca-a4da-598976b02a1c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -244,399 +266,7 @@
 			]
 		},
 		{
-			"name": "Audit",
-			"description": "",
-			"item": [
-				{
-					"name": "List Audits",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"id\":\"greig+newtest@nubeva.com\",\n\"token\":\"oepi7356NANJ\",\n\"confirmationcode\":\"658278\",\n\"password\":{\"value\":\"S3cr3tPassword\",\"method\":\"plaintext\"}\n}"
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				},
-				{
-					"name": "Create Ruleset",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							},
-							{
-								"key": "Application-type",
-								"value": "application/json"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"rules\": [\r\n      {\r\n        \"target\": \"allowUnlisted\",\r\n        \"allowed\": true\r\n    }\r\n  ]\r\n}"
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				},
-				{
-					"name": "Get Ruleset",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"id\":\"greig+newtest@nubeva.com\",\n\"token\":\"oepi7356NANJ\",\n\"confirmationcode\":\"658278\",\n\"password\":{\"value\":\"S3cr3tPassword\",\"method\":\"plaintext\"}\n}"
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit/ruleset_id",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit",
-								"ruleset_id"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				},
-				{
-					"name": "Run Ruleset",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"enforce\": true,\r\n  \"app-ids\": [],\r\n  \"app-names\": [ \"DotNetDemoApp\" ]\r\n}"
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit/{{ruleset_id}}/run",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit",
-								"{{ruleset_id}}",
-								"run"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				},
-				{
-					"name": "Update Ruleset",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"rules\": [\r\n\t{\r\n    \t\"target\": \"allowUnlisted\",\r\n        \"allowed\": false\r\n    },\r\n    {\r\n    \t\"target\": \"124.19.4.94\",\r\n        \"allowed\": true\r\n    }\r\n  ]\r\n}"
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit/{{ruleset_id}}",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit",
-								"{{ruleset_id}}"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Ruleset",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit/ruleset_id",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit",
-								"ruleset_id"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				},
-				{
-					"name": "Get Rules",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"id\":\"greig+newtest@nubeva.com\",\n\"token\":\"oepi7356NANJ\",\n\"confirmationcode\":\"658278\",\n\"password\":{\"value\":\"S3cr3tPassword\",\"method\":\"plaintext\"}\n}"
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit/51db1b34-4378-4ce7-8378-f37b6e2da6b2/rules",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit",
-								"51db1b34-4378-4ce7-8378-f37b6e2da6b2",
-								"rules"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				},
-				{
-					"name": "Get Rule for Target",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"id\":\"greig+newtest@nubeva.com\",\n\"token\":\"oepi7356NANJ\",\n\"confirmationcode\":\"658278\",\n\"password\":{\"value\":\"S3cr3tPassword\",\"method\":\"plaintext\"}\n}"
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit/ruleset_id/rules/target",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit",
-								"ruleset_id",
-								"rules",
-								"target"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				},
-				{
-					"name": "Update Rule for Target",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"target\": \"<target>\",\r\n  \"allowed\": true\r\n}"
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit/51db1b34-4378-4ce7-8378-f37b6e2da6b2/rules/allowUnlisted",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit",
-								"51db1b34-4378-4ce7-8378-f37b6e2da6b2",
-								"rules",
-								"allowUnlisted"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				},
-				{
-					"name": "DeleteRule for Target",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/audit/51db1b34-4378-4ce7-8378-f37b6e2da6b2/rules/allowUnlisted",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"audit",
-								"51db1b34-4378-4ce7-8378-f37b6e2da6b2",
-								"rules",
-								"allowUnlisted"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Webapps",
-			"description": "",
-			"item": [
-				{
-					"name": "List WebApps",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"id\":\"greig+newtest@nubeva.com\",\n\"token\":\"oepi7356NANJ\",\n\"confirmationcode\":\"658278\",\n\"password\":{\"value\":\"S3cr3tPassword\",\"method\":\"plaintext\"}\n}"
-						},
-						"url": {
-							"raw": "https://{{apiUrl}}/webapps",
-							"protocol": "https",
-							"host": [
-								"{{apiUrl}}"
-							],
-							"path": [
-								"webapps"
-							]
-						},
-						"description": "List all StratusEdges in your account."
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "https://{{apiUrl}}/cleanup",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{token}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://{{apiUrl}}/cleanup",
-					"protocol": "https",
-					"host": [
-						"{{apiUrl}}"
-					],
-					"path": [
-						"cleanup"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "https://{{apiUrl}}/login",
+			"name": "Controller Login",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -664,13 +294,12 @@
 					"path": [
 						"login"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "https://{{apiUrl}}/setup",
+			"name": "Controller Setup",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -685,7 +314,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"appId\":  \"a7005175-6769-4123-918f-8d9159789afd\",\r\n    \"subscriptionid\":  \"2acb0abe-d00f-4199-ba56-19f2304d2ab6\",\r\n    \"tenant\":  \"c42e1229-595a-4068-98e0-ea9d606c3cd4\",\r\n    \"password\": \"123Nubeva123\"\r\n}"
+					"raw": "{\r\n    \"appId\":  \"your-appid-here\",\r\n    \"subscriptionid\":  \"your-subid-here\",\r\n    \"tenant\":  \"your-tenant-here\",\r\n    \"password\": \"your-pw-here\"\r\n}"
 				},
 				"url": {
 					"raw": "https://{{apiUrl}}/setup",
@@ -696,8 +325,7 @@
 					"path": [
 						"setup"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		}
